@@ -13,6 +13,8 @@ struct ContentView: View {
     @State private var appCurrentChoice = Int.random(in: 0..<2)
     @State private var shouldWin = Bool.random()
     @State private var score = 0
+    @State private var moves = 0
+    @State private var isGameOver = false
     
     let possibleMoves = ["✊🏻", "✋🏻", "✌🏻"]
     
@@ -37,7 +39,16 @@ struct ContentView: View {
                     }
                 }
             }
+        }.alert(isPresented: $isGameOver) {
+            Alert(title: Text("Game Over"), message: Text("You are run out of moves"), dismissButton: .cancel())
         }
+    }
+    
+    func nextMove() {
+        appCurrentChoice = Int.random(in: 0..<2)
+        shouldWin = Bool.random()
+        moves += 1
+        isGameOver = moves > 10
     }
     
     func playerResponse(_ number: Int) {
@@ -88,6 +99,7 @@ struct ContentView: View {
                 break
             }
         }
+        nextMove()
     }
 }
 
